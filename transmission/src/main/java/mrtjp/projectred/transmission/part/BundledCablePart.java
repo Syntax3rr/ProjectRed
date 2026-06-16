@@ -83,6 +83,20 @@ public class BundledCablePart extends BaseFaceWirePart implements IBundledCableP
     }
     //endregion
 
+    //region IPropagationFacePart overrides
+    @Override
+    public void propagateOther(int mode) {
+        RedstonePropagator.addNeighborChange(level(), pos(), pos().relative(Direction.values()[getSide()]));
+        RedstonePropagator.addNeighborChange(level(), pos(), pos().relative(Direction.values()[getSide() ^ 1]));
+
+        for (int r = 0; r < 4; r++) {
+            if (!maskConnects(r)) {
+                RedstonePropagator.addNeighborChange(level(), pos(), posOfStraight(r));
+            }
+        }
+    }
+    //endregion
+
     //region IConnectable overrides
     @Override
     public boolean canConnectPart(IConnectable part, int dir) {

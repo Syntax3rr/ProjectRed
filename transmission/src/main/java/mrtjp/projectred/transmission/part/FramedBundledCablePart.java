@@ -81,6 +81,17 @@ public class FramedBundledCablePart extends BaseCenterWirePart implements IBundl
     }
     //endregion
 
+    //region IPropagationCenterPart overrides
+    @Override
+    public void propagateOther(int mode) {
+        for (int s = 0; s < 6; s++) {
+            if (!maskConnects(s)) {
+                RedstonePropagator.addNeighborChange(level(), pos(), posOfStraight(s));
+            }
+        }
+    }
+    //endregion
+
     //region IConnectable overrides
     @Override
     public boolean canConnectPart(IConnectable part, int dir) {
